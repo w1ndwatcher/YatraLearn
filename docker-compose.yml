@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: yatralearn_db
+    restart: always
+    environment:
+      POSTGRES_USER: adventure_admin
+      POSTGRES_PASSWORD: jasmine
+      POSTGRES_DB: adventure_reflection
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+  
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: yatralearn_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@yatralearn.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "8181:80"
+
+volumes:
+  pg_data:

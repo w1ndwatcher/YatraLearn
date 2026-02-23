@@ -1,0 +1,213 @@
+/* =======================================
+   🌿 Global Theme: Teal + Sunset Orange
+   Clean, trustworthy, minimal & modern
+======================================= */
+
+:root {
+  /* Brand Colors */
+  --color-primary: #0F6B68;
+  --color-primary-light: #159A97;
+  --color-accent: #FF7A3D;
+  --color-accent-hover: #FF8F5F;
+
+  /* Backgrounds & Surfaces */
+  --color-bg: #F8FBFB;
+  --color-surface: #FFFFFF;
+
+  /* Text Colors */
+  --color-text-strong: #12343A;
+  --color-text-muted: #62727A;
+
+  /* Semantic Colors */
+  --color-success: #2E9E6A;
+  --color-warning: #E3A21A;
+  --color-error: #D9534F;
+
+  /* Gradients */
+  --gradient-header: linear-gradient(135deg, #0F6B68 0%, #159A97 100%);
+  --gradient-cta: linear-gradient(90deg, #FF7A3D 0%, #FF8F5F 100%);
+
+  /* Typography */
+  --font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-size-base: 1rem;
+  --line-height-base: 1.5;
+  --font-weight-normal: 400;
+  --font-weight-semibold: 500;
+
+  /* Elevation */
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+/* =======================================
+   🧭 Global Reset & Body
+======================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text-strong);
+  background-color: var(--color-bg);
+  min-width: 320px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* =======================================
+   🧱 Typography
+======================================= */
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text-strong);
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+p {
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+}
+
+/* =======================================
+   🔗 Links
+======================================= */
+
+a {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-primary-light);
+}
+
+/* =======================================
+   🔘 Buttons
+======================================= */
+
+button {
+  border-radius: 8px;
+  border: none;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: var(--font-weight-semibold);
+  font-family: inherit;
+  color: #fff;
+  background: var(--gradient-cta);
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  box-shadow: 0 4px 12px rgba(255, 122, 61, 0.2);
+}
+
+button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  background: linear-gradient(90deg, #FF8F5F, #FF7A3D);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 3px solid var(--color-primary-light);
+  outline-offset: 2px;
+}
+
+/* Secondary / Subtle Buttons */
+.btn-secondary {
+  background-color: var(--color-primary);
+}
+.btn-secondary:hover {
+  background-color: var(--color-primary-light);
+}
+
+/* Success Button */
+.btn-success {
+  background: var(--gradient-cta);
+  border: none;
+}
+
+/* =======================================
+   💳 Cards & Surfaces
+======================================= */
+
+.card {
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 600px;
+  margin: 1.5rem auto;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+/* =======================================
+   🏷️ Badges
+======================================= */
+
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background-color: var(--color-primary-light);
+  color: #fff;
+}
+
+/* =======================================
+   🌈 Utility Classes
+======================================= */
+
+.text-teal {
+  color: var(--color-primary);
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.bg-teal {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.bg-gradient-header {
+  background: var(--gradient-header);
+  color: #fff;
+  padding: 3rem 1rem;
+  text-align: center;
+  border-radius: 12px;
+}
+
+/* =======================================
+   📱 Responsive Typography
+======================================= */
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.2em;
+  }
+  .card {
+    padding: 1rem;
+  }
+}
