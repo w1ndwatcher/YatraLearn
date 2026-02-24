@@ -5,10 +5,17 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.middleware.csrf import get_token
+from rest_framework.authentication import SessionAuthentication
 
+
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+    def enforce_csrf(self, request):
+        return
 
 class LoginView(APIView):
+    authentication_classes = [CsrfExemptSessionAuthentication]
     def post(self, request):
+        
         username = request.data.get("username")
         password = request.data.get("password")
 
@@ -21,22 +28,22 @@ class LoginView(APIView):
             return Response({"error": "Invalid credentials."}, status=400)
 
         login(request, user)
-        csrf_token = get_token(request)
-        print(csrf_token)
+        # csrf_token = get_token(request)
+        # print(csrf_token)
         profile = user.userprofile
 
         return Response({
             "username": user.username,
             "role": profile.role,
             "must_change_password": profile.must_change_password,
-            "csrfToken": csrf_token
         })
 
 
 class ChangePasswordView(APIView):
+    authentication_classes = [CsrfExemptSessionAuthentication]
     def post(self, request):
-        # if not request.user.is_authenticated:
-        #     return Response({"error": "Authentication required."}, status=401)
+        if not request.user.is_authenticated:
+            return Response({"error": "Authentication required."}, status=401)
         print(request.user)
         
         new_password = request.data.get("new_password")

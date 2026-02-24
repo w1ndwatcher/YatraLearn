@@ -1,12 +1,12 @@
-// frontend/src/pages/Dashboard.jsx
 import React from "react";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 const Dashboard = () => {
   return (
-    <div className="p-5">
-      <h2>Trainer Dashboard</h2>
-      <p>Login successful.</p>
-    </div>
+    <DashboardLayout>
+      <h2>Welcome Trainer 👋</h2>
+      <p>This is your dashboard.</p>
+    </DashboardLayout>
   );
 };
 

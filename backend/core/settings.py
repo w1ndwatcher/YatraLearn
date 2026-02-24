@@ -157,9 +157,10 @@ REST_FRAMEWORK = {
     ],
 }
 
-# Check these settings in production
-SESSION_COOKIE_SAMESITE = "None"
-SESSION_COOKIE_SECURE = False   # dev only
+# # Allow cookies to be sent across different ports (localhost:5173 → localhost:8001)
+# SESSION_COOKIE_SAMESITE = "None"
+# CSRF_COOKIE_SAMESITE = "None"
 
-CSRF_COOKIE_SAMESITE = "None"
-CSRF_COOKIE_SECURE = False      # dev only
+# # For development only (HTTP, not HTTPS)
+# SESSION_COOKIE_SECURE = False
+# CSRF_COOKIE_SECURE = False

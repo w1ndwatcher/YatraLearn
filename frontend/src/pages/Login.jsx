@@ -44,10 +44,10 @@ const Login = () => {
         return;
       }
 
-      if (data.csrfToken) {
-        console.log("csrftoken", data.csrfToken);
-        localStorage.setItem("csrftoken", data.csrfToken);
-      }
+      // if (data.csrfToken) {
+      //   console.log("csrftoken", data.csrfToken);
+      //   localStorage.setItem("csrftoken", data.csrfToken);
+      // }
 
       // Redirect logic
       if (data.must_change_password) {
