@@ -3,3 +3,9 @@
 /backend/core/__pycache__
 /backend/users/__pycache__
 /backend/users/__pycache__
+.env
+/backend/core/__pycache__
+/backend/reflections/__pycache__
+/backend/core/__pycache__
+.env
+/backend/core/__pycache__
