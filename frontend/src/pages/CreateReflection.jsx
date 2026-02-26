@@ -17,6 +17,27 @@ const objectives = [
   "Communication",
 ];
 
+function getCookie(name) {
+  let cookieValue = null;
+
+  if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";");
+
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+
+      if (cookie.startsWith(name + "=")) {
+        cookieValue = decodeURIComponent(
+          cookie.substring(name.length + 1)
+        );
+        break;
+      }
+    }
+  }
+
+  return cookieValue;
+};
+
 const CreateReflection = () => {
 
   const [selectedObjectives, setSelectedObjectives] = useState([]);
@@ -92,7 +113,7 @@ const CreateReflection = () => {
       credentials:"include",
       headers:{
         "Content-Type":"application/json",
-        "X-CSRFToken": document.cookie.split("csrftoken=")[1]?.split(";")[0]
+        "X-CSRFToken": getCookie("csrftoken"),
       },
       body:JSON.stringify(payload)
     });
