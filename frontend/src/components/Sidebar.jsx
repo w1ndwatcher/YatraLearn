@@ -28,7 +28,7 @@ const Sidebar = () => {
         Create Session
       </NavLink>
 
-      <NavLink to="/sessions">
+      <NavLink to="/sessions/list">
         <FontAwesomeIcon icon={faClipboardList} />
         Reflection Sessions
       </NavLink>

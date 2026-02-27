@@ -91,3 +91,31 @@ Thanks
             )
 
         return session
+    
+
+class ReflectionSessionListSerializer(serializers.ModelSerializer):
+
+    total_participants = serializers.SerializerMethodField()
+    started_count = serializers.SerializerMethodField()
+    completed_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ReflectionSession
+        fields = [
+            "id",
+            "title",
+            "duration_from",
+            "duration_to",
+            "total_participants",
+            "started_count",
+            "completed_count",
+        ]
+
+    def get_total_participants(self, obj):
+        return obj.participantprofile_set.count()
+
+    def get_started_count(self, obj):
+        return obj.participantprofile_set.filter(status="STARTED").count()
+
+    def get_completed_count(self, obj):
+        return obj.participantprofile_set.filter(status="COMPLETED").count()

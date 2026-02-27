@@ -14,6 +14,11 @@ class ReflectionSession(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 class ParticipantProfile(models.Model):
+    STATUS_CHOICES = [
+        ('INVITED', 'Invited'),
+        ('STARTED', 'Started'),
+        ('COMPLETED', 'Completed'),
+    ]
     session = models.ForeignKey(ReflectionSession, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=255)
@@ -25,6 +30,11 @@ class ParticipantProfile(models.Model):
     state = models.CharField(max_length=100)
     country = models.CharField(max_length=100, default='India')
     comments = models.TextField(blank=True, null=True)
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='INVITED'
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
 class ParticipantCredentials(models.Model):
