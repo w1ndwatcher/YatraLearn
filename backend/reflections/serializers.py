@@ -119,3 +119,34 @@ class ReflectionSessionListSerializer(serializers.ModelSerializer):
 
     def get_completed_count(self, obj):
         return obj.participantprofile_set.filter(status="COMPLETED").count()
+    
+class ReflectionSessionDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ReflectionSession
+        fields = [
+            "id",
+            "title",
+            "learning_objectives",
+            "duration_from",
+            "duration_to",
+            "design",
+            "execution",
+        ]
+        
+class ParticipantListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ParticipantProfile
+        fields = [
+            "id",
+            "name",
+            "email",
+            "role",
+            "years_experience",
+            "department",
+            "city",
+            "state",
+            "country",
+            "status",
+        ]

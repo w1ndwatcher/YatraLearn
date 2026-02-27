@@ -1,11 +1,12 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .serializers import ReflectionCreateSerializer, ReflectionSessionListSerializer
+from .serializers import ReflectionCreateSerializer, ReflectionSessionListSerializer, ReflectionSessionDetailSerializer, ParticipantListSerializer
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.generics import ListAPIView
-from .models import ReflectionSession
+from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView, DestroyAPIView
+from .models import ReflectionSession, ParticipantProfile
 from trainers.models import TrainerProfile
+from django.shortcuts import get_object_or_404
 
 class CreateReflectionSession(APIView):
     permission_classes = [IsAuthenticated]
@@ -26,3 +27,36 @@ class TrainerReflectionListView(ListAPIView):
     def get_queryset(self):
         trainer = TrainerProfile.objects.get(user=self.request.user)
         return ReflectionSession.objects.filter(trainer=trainer).order_by("-created_at")
+    
+class ReflectionSessionDetailView(RetrieveUpdateAPIView):
+    serializer_class = ReflectionSessionDetailSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        trainer = TrainerProfile.objects.get(user=self.request.user)
+        return ReflectionSession.objects.filter(trainer=trainer)
+
+class SessionParticipantsView(ListAPIView):
+    serializer_class = ParticipantListSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        trainer = TrainerProfile.objects.get(user=self.request.user)
+        session_id = self.kwargs["session_id"]
+
+        session = get_object_or_404(
+            ReflectionSession,
+            id=session_id,
+            trainer=trainer
+        )
+
+        return ParticipantProfile.objects.filter(session=session)
+    
+class DeleteParticipantView(DestroyAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        trainer = TrainerProfile.objects.get(user=self.request.user)
+        return ParticipantProfile.objects.filter(
+            session__trainer=trainer
+        )
