@@ -3,9 +3,9 @@ from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
 from django.core.mail import send_mail
 from django.conf import settings
-
+from users.models import UserProfile
 from trainers.models import TrainerProfile
-from .models import ReflectionSession, ParticipantProfile, ParticipantCredentials
+from .models import ReflectionSession, ParticipantProfile
 
 
 class ParticipantSerializer(serializers.ModelSerializer):
@@ -55,18 +55,32 @@ class ReflectionCreateSerializer(serializers.ModelSerializer):
 
         for p in participants_data:
 
-            participant = ParticipantProfile.objects.create(
-                session=session,
-                **p
-            )
+            base_username = p["email"].split("@")[0]
+            username = base_username
+            counter = 1
 
-            username = p["email"].split("@")[0]
+            while User.objects.filter(username=username).exists():
+                username = f"{base_username}{counter}"
+                counter += 1
+
             password = get_random_string(8)
 
-            ParticipantCredentials.objects.create(
-                participant=participant,
+            user = User.objects.create_user(
                 username=username,
-                password_hash=password,
+                email=p["email"],
+                password=password
+            )
+
+            UserProfile.objects.create(
+                user=user,
+                role="TRAINEE",
+                must_change_password=True
+            )
+
+            participant = ParticipantProfile.objects.create(
+                session=session,
+                user=user,
+                **p
             )
 
             # Send Invite Email
@@ -150,3 +164,49 @@ class ParticipantListSerializer(serializers.ModelSerializer):
             "country",
             "status",
         ]
+
+class AddParticipantSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ParticipantProfile
+        fields = [
+            "name",
+            "email",
+            "role",
+            "years_experience",
+            "department",
+            "city",
+            "state",
+            "country",
+            "comments",
+        ]
+        
+        
+class ParticipantSessionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ReflectionSession
+        fields = [
+            "id",
+            "title",
+            "duration_from",
+            "duration_to",
+        ]
+        
+
+class ParticipantProfileSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ParticipantProfile
+        fields = [
+            "name",
+            "email",
+            "role",
+            "years_experience",
+            "department",
+            "city",
+            "state",
+            "country",
+            "comments",
+        ]
+        read_only_fields = ["email"]

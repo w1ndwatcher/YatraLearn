@@ -87,7 +87,7 @@ const ReflectionList = () => {
       name: "Started",
       center: true,
       cell: row => (
-        <span className="badge bg-warning text-dark small">
+        <span className="badge bg-warning text-dark small px-2 py-1">
           {row.started_count}
         </span>
       ),
@@ -96,7 +96,7 @@ const ReflectionList = () => {
       name: "Completed",
       center: true,
       cell: row => (
-        <span className="badge bg-success small">
+        <span className="badge bg-success small px-2 py-1">
           {row.completed_count}
         </span>
       ),

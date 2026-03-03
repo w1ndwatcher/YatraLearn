@@ -5,6 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const Login = () => {
   const navigate = useNavigate();
 
+  const [role, setRole] = useState("TRAINER");
+
   const [form, setForm] = useState({
     username: "",
     password: "",
@@ -27,12 +29,18 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:8001/", {
+
+      const endpoint =
+        role === "TRAINER"
+          ? "http://localhost:8001/"
+          : "http://localhost:8001/api/reflections/participant-login/";
+
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include", // VERY IMPORTANT for Django session auth
+        credentials: "include",
         body: JSON.stringify(form),
       });
 
@@ -44,42 +52,69 @@ const Login = () => {
         return;
       }
 
-      // if (data.csrfToken) {
-      //   console.log("csrftoken", data.csrfToken);
-      //   localStorage.setItem("csrftoken", data.csrfToken);
-      // }
+      // -------------------------
+      // Redirect Logic
+      // -------------------------
 
-      // Redirect logic
-      if (data.must_change_password) {
-        navigate("/change-password");
+      if (role === "TRAINER") {
+
+        if (data.must_change_password) {
+          navigate("/change-password");
+        } else {
+          navigate("/dashboard");
+        }
+
       } else {
-        navigate("/dashboard");
+        // Participant
+        navigate("/participant/chat");
       }
 
     } catch (err) {
       console.error(err);
       setError("Something went wrong. Please try again.");
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
   return (
-    <div className="gradient-bg d-flex align-items-center">
+    <div className="gradient-bg d-flex align-items-center" style={{ minHeight: "100vh" }}>
       <div className="container">
         <div className="row justify-content-center">
 
-          {/* Responsive centered column */}
           <div className="col-md-6 col-lg-4">
 
             <div className="card p-4 shadow-lg">
 
-              <h3 className="text-center mb-4">Trainer Login</h3>
+              <h3 className="text-center mb-4">
+                {role === "TRAINER" ? "Trainer Login" : "Participant Login"}
+              </h3>
 
               {error && (
                 <div className="alert alert-danger py-2">
                   {error}
                 </div>
               )}
+
+              {/* Role Selector */}
+              <div className="mb-3 text-center">
+                <div className="btn-group w-100" role="group">
+                  <button
+                    type="button"
+                    className={`btn btn-sm ${role === "TRAINER" ? "btn-success" : "btn-outline-success"}`}
+                    onClick={() => setRole("TRAINER")}
+                  >
+                    Trainer
+                  </button>
+                  <button
+                    type="button"
+                    className={`btn btn-sm ${role === "TRAINEE" ? "btn-success" : "btn-outline-success"}`}
+                    onClick={() => setRole("TRAINEE")}
+                  >
+                    Participant
+                  </button>
+                </div>
+              </div>
 
               <form onSubmit={handleSubmit}>
 
@@ -117,7 +152,23 @@ const Login = () => {
 
               </form>
 
+              {/* Trainer Register Link */}
+              {role === "TRAINER" && (
+                <div className="text-center mt-3">
+                  <small>
+                    New trainer?{" "}
+                    <span
+                      style={{ cursor: "pointer", color: "#0F6B68" }}
+                      onClick={() => navigate("/trainer/register")}
+                    >
+                      Register here
+                    </span>
+                  </small>
+                </div>
+              )}
+
             </div>
+
           </div>
 
         </div>

@@ -19,8 +19,9 @@ class ParticipantProfile(models.Model):
         ('STARTED', 'Started'),
         ('COMPLETED', 'Completed'),
     ]
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="participantprofile")
     session = models.ForeignKey(ReflectionSession, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    #user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=255)
     email = models.EmailField()
     role = models.CharField(max_length=100)
@@ -36,10 +37,11 @@ class ParticipantProfile(models.Model):
         default='INVITED'
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-class ParticipantCredentials(models.Model):
-    participant = models.OneToOneField(ParticipantProfile, on_delete=models.CASCADE)
-    username = models.CharField(max_length=255)
-    password_hash = models.CharField(max_length=255)
-    is_default = models.BooleanField(default=True)
-    last_login = models.DateTimeField(null=True, blank=True)
+# class ParticipantCredentials(models.Model):
+#     participant = models.OneToOneField(ParticipantProfile, on_delete=models.CASCADE)
+#     username = models.CharField(max_length=255)
+#     password_hash = models.CharField(max_length=255)
+#     is_default = models.BooleanField(default=True)
+#     last_login = models.DateTimeField(null=True, blank=True)

@@ -4,7 +4,7 @@ from .models import TrainerProfile
 from .serializers import TrainerRegisterSerializer
 from rest_framework.response import Response
 from rest_framework import status
-
+from django.contrib.auth.hashers import make_password
 
 class TrainerRegisterView(generics.CreateAPIView):
     queryset = TrainerProfile.objects.all()

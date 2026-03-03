@@ -4,6 +4,7 @@ from django.db import transaction
 from django.utils.crypto import get_random_string
 from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib.auth.hashers import make_password
 
 from .models import TrainerProfile, TrainerEducation, TrainerPastClient, TrainerTestimonial
 from users.models import UserProfile
